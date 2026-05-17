@@ -1,9 +1,11 @@
 # HookSniff Go SDK
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/servetarslan02/hooksniff-go.svg)](https://pkg.go.dev/github.com/servetarslan02/hooksniff-go)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<p align="center">
+  <a href="https://pkg.go.dev/github.com/servetarslan02/hooksniff-go"><img src="https://pkg.go.dev/badge/github.com/servetarslan02/hooksniff-go.svg" alt="Go Reference"></a>
+  <a href="https://github.com/servetarslan02/HookSniff"><img src="https://img.shields.io/github/license/servetarslan02/HookSniff" alt="License"></a>
+</p>
 
-Go client library for the [HookSniff](https://github.com/servetarslan02/hooksniff) webhook delivery API.
+Go SDK for the [HookSniff](https://hooksniff.com) webhook delivery platform.
 
 ## Installation
 
@@ -17,101 +19,67 @@ go get github.com/servetarslan02/hooksniff-go
 package main
 
 import (
-    "context"
     "fmt"
-    "log"
-
     hooksniff "github.com/servetarslan02/hooksniff-go"
 )
 
 func main() {
-    client := hooksniff.New("hr_live_YOUR_API_KEY")
+    client := hooksniff.New("hs_xxx")
+
+    // List endpoints
+    endpoints, err := client.Endpoint.List(nil)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println(endpoints)
 
     // Create an endpoint
-    ep, err := client.Endpoints.Create(context.Background(), &hooksniff.CreateEndpointRequest{
-        URL:         "https://myapp.com/webhook",
-        Description: "My app webhook",
+    endpoint, err := client.Endpoint.Create(&hooksniff.EndpointIn{
+        Url:         "https://example.com/webhook",
+        Description: hooksniff.String("My endpoint"),
     })
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Printf("Endpoint: %s\n", ep.ID)
 
     // Send a webhook
-    delivery, err := client.Webhooks.Send(context.Background(), &hooksniff.SendWebhookRequest{
-        EndpointID: ep.ID,
-        Event:      "order.created",
-        Data: map[string]interface{}{
-            "order_id": "ord_123",
-            "total":    49.99,
-        },
+    message, err := client.Message.Create(&hooksniff.MessageIn{
+        Event: "order.created",
+        Data:  map[string]interface{}{"order_id": "123"},
     })
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Printf("Delivery: %s (status: %s)\n", delivery.ID, delivery.Status)
 }
 ```
 
-## API Reference
-
-### Endpoints
+## Webhook Verification
 
 ```go
-// List all endpoints
-endpoints, err := client.Endpoints.List(ctx)
+import "github.com/servetarslan02/hooksniff-go"
 
-// Create endpoint
-ep, err := client.Endpoints.Create(ctx, &hooksniff.CreateEndpointRequest{
-    URL:              "https://myapp.com/webhook",
-    Description:      "My webhook endpoint",
-    RoutingStrategy:  "failover",
-    FallbackURL:      "https://backup.myapp.com/webhook",
-    EventFilter:      []string{"order.*", "payment.completed"},
+wh, err := hooksniff.NewWebhook("whsec_xxx")
+if err != nil {
+    panic(err)
+}
+
+payload, err := wh.Verify(body, http.Header{
+    "Hooksniff-Id":        []string{r.Header.Get("hooksniff-id")},
+    "Hooksniff-Signature": []string{r.Header.Get("hooksniff-signature")},
+    "Hooksniff-Timestamp": []string{r.Header.Get("hooksniff-timestamp")},
 })
-
-// Get endpoint
-ep, err := client.Endpoints.Get(ctx, "ep_abc123")
-
-// Delete endpoint
-err := client.Endpoints.Delete(ctx, "ep_abc123")
-
-// Rotate signing secret
-result, err := client.Endpoints.RotateSecret(ctx, "ep_abc123")
+if err != nil {
+    // Invalid signature
+}
 ```
 
-### Webhooks
+## Resources
 
-```go
-// Send webhook
-delivery, err := client.Webhooks.Send(ctx, &hooksniff.SendWebhookRequest{
-    EndpointID: "ep_abc123",
-    Event:      "order.created",
-    Data:       map[string]interface{}{"order_id": "12345"},
-})
+| Resource | Methods |
+|----------|---------|
+| `Endpoint` | `List`, `Create`, `Get`, `Update`, `Delete` |
+| `Message` | `Create`, `List`, `Get` |
+| `MessageAttempt` | `List`, `ListByMsg`, `Get`, `Resend` |
+| `Authentication` | `DashboardAccess` |
+| `EventType` | `List` |
+| `Statistics` | `Aggregate` |
 
-// Send batch
-deliveries, errors, err := client.Webhooks.SendBatch(ctx, []*hooksniff.SendWebhookRequest{
-    {EndpointID: "ep_1", Event: "order.created", Data: map[string]interface{}{"id": "1"}},
-    {EndpointID: "ep_2", Event: "user.signup", Data: map[string]interface{}{"id": "2"}},
-})
+## Links
 
-// List deliveries
-resp, err := client.Webhooks.List(ctx, 1)
-
-// Get delivery details
-delivery, err := client.Webhooks.Get(ctx, "wh_abc123")
-
-// Replay delivery
-delivery, err := client.Webhooks.Replay(ctx, "wh_abc123")
-```
-
-### Custom API URL
-
-```go
-client := hooksniff.NewWithBaseURL("hr_live_YOUR_KEY", "https://hooksniff-api-1046140057667.europe-west1.run.app/v1")
-```
-
-## License
-
-MIT
+- [Documentation](https://docs.hooksniff.com)
+- [Go Reference](https://pkg.go.dev/github.com/servetarslan02/hooksniff-go)
+- [GitHub](https://github.com/servetarslan02/HookSniff)
