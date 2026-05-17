@@ -30,6 +30,14 @@ type (
 		Message        *Message
 		MessageAttempt *MessageAttempt
 		Statistics     *Statistics
+		Environment    *Environment
+		BackgroundTask *BackgroundTask
+		OperationalWebhook *OperationalWebhook
+		MessagePoller *MessagePoller
+		Inbound *Inbound
+		Connector *ConnectorApi
+		Integration *IntegrationApi
+		Stream *StreamApi
 	}
 )
 
@@ -66,6 +74,14 @@ func New(token string, options *HookSniffOptions) (*HookSniff, error) {
 		Message:        newMessage(&hooksniffHttpClient),
 		MessageAttempt: newMessageAttempt(&hooksniffHttpClient),
 		Statistics:     newStatistics(&hooksniffHttpClient),
+		Environment:    newEnvironment(&hooksniffHttpClient),
+		BackgroundTask: newBackgroundTask(&hooksniffHttpClient),
+		OperationalWebhook: newOperationalWebhook(&hooksniffHttpClient),
+		MessagePoller: newMessagePoller(&hooksniffHttpClient),
+		Inbound: newInbound(&hooksniffHttpClient),
+		Connector: newConnectorApi(&hooksniffHttpClient),
+		Integration: newIntegrationApi(&hooksniffHttpClient),
+		Stream: newStreamApi(&hooksniffHttpClient),
 	}
 	return &hs, nil
 }
