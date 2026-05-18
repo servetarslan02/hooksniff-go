@@ -33,7 +33,7 @@ func (c *ConnectorApi) List(ctx context.Context, options *ConnectorListOptions) 
 		}
 	}
 	return internal.ExecuteRequest[any, models.ListResponseConnectorOut](
-		ctx, c.client, "GET", "/api/v1/connector",
+		ctx, c.client, "GET", "/v1/connector",
 		nil, queryMap, nil, nil,
 	)
 }
@@ -41,7 +41,7 @@ func (c *ConnectorApi) List(ctx context.Context, options *ConnectorListOptions) 
 func (c *ConnectorApi) Get(ctx context.Context, connectorId string) (*models.ConnectorOut, error) {
 	pathMap := map[string]string{"connector_id": connectorId}
 	return internal.ExecuteRequest[any, models.ConnectorOut](
-		ctx, c.client, "GET", "/api/v1/connector/{connector_id}",
+		ctx, c.client, "GET", "/v1/connector/{connector_id}",
 		pathMap, nil, nil, nil,
 	)
 }
@@ -49,7 +49,7 @@ func (c *ConnectorApi) Get(ctx context.Context, connectorId string) (*models.Con
 func (c *ConnectorApi) Delete(ctx context.Context, connectorId string) error {
 	pathMap := map[string]string{"connector_id": connectorId}
 	_, err := internal.ExecuteRequest[any, any](
-		ctx, c.client, http.MethodDelete, "/api/v1/connector/{connector_id}",
+		ctx, c.client, http.MethodDelete, "/v1/connector/{connector_id}",
 		pathMap, nil, nil, nil,
 	)
 	return err

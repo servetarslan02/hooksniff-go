@@ -36,14 +36,14 @@ func (o *OperationalWebhookEndpoint) List(ctx context.Context, options *Operatio
 		}
 	}
 	return internal.ExecuteRequest[any, models.ListResponseOperationalWebhookEndpointOut](
-		ctx, o.client, "GET", "/api/v1/operational-webhook/endpoint",
+		ctx, o.client, "GET", "/v1/operational-webhook/endpoint",
 		nil, queryMap, nil, nil,
 	)
 }
 
 func (o *OperationalWebhookEndpoint) Create(ctx context.Context, body models.OperationalWebhookEndpointIn) (*models.OperationalWebhookEndpointOut, error) {
 	return internal.ExecuteRequest[models.OperationalWebhookEndpointIn, models.OperationalWebhookEndpointOut](
-		ctx, o.client, "POST", "/api/v1/operational-webhook/endpoint",
+		ctx, o.client, "POST", "/v1/operational-webhook/endpoint",
 		nil, nil, nil, &body,
 	)
 }
@@ -51,7 +51,7 @@ func (o *OperationalWebhookEndpoint) Create(ctx context.Context, body models.Ope
 func (o *OperationalWebhookEndpoint) Get(ctx context.Context, endpointId string) (*models.OperationalWebhookEndpointOut, error) {
 	pathMap := map[string]string{"endpoint_id": endpointId}
 	return internal.ExecuteRequest[any, models.OperationalWebhookEndpointOut](
-		ctx, o.client, "GET", "/api/v1/operational-webhook/endpoint/{endpoint_id}",
+		ctx, o.client, "GET", "/v1/operational-webhook/endpoint/{endpoint_id}",
 		pathMap, nil, nil, nil,
 	)
 }
@@ -59,7 +59,7 @@ func (o *OperationalWebhookEndpoint) Get(ctx context.Context, endpointId string)
 func (o *OperationalWebhookEndpoint) Delete(ctx context.Context, endpointId string) error {
 	pathMap := map[string]string{"endpoint_id": endpointId}
 	_, err := internal.ExecuteRequest[any, any](
-		ctx, o.client, http.MethodDelete, "/api/v1/operational-webhook/endpoint/{endpoint_id}",
+		ctx, o.client, http.MethodDelete, "/v1/operational-webhook/endpoint/{endpoint_id}",
 		pathMap, nil, nil, nil,
 	)
 	return err

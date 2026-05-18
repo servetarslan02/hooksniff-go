@@ -15,14 +15,14 @@ func newEnvironment(client *internal.HookSniffHttpClient) *Environment {
 
 func (e *Environment) Export(ctx context.Context) (*models.EnvironmentOut, error) {
 	return internal.ExecuteRequest[any, models.EnvironmentOut](
-		ctx, e.client, "POST", "/api/v1/environment/export",
+		ctx, e.client, "POST", "/v1/environment/export",
 		nil, nil, nil, nil,
 	)
 }
 
 func (e *Environment) Import(ctx context.Context, body models.EnvironmentIn) error {
 	_, err := internal.ExecuteRequest[models.EnvironmentIn, any](
-		ctx, e.client, "POST", "/api/v1/environment/import",
+		ctx, e.client, "POST", "/v1/environment/import",
 		nil, nil, nil, &body,
 	)
 	return err

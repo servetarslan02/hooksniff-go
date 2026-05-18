@@ -33,7 +33,7 @@ func (b *BackgroundTask) List(ctx context.Context, options *BackgroundTaskListOp
 		}
 	}
 	return internal.ExecuteRequest[any, models.ListResponseBackgroundTaskOut](
-		ctx, b.client, "GET", "/api/v1/background-task",
+		ctx, b.client, "GET", "/v1/background-task",
 		nil, queryMap, nil, nil,
 	)
 }
@@ -41,7 +41,7 @@ func (b *BackgroundTask) List(ctx context.Context, options *BackgroundTaskListOp
 func (b *BackgroundTask) Get(ctx context.Context, taskId string) (*models.BackgroundTaskOut, error) {
 	pathMap := map[string]string{"task_id": taskId}
 	return internal.ExecuteRequest[any, models.BackgroundTaskOut](
-		ctx, b.client, "GET", "/api/v1/background-task/{task_id}",
+		ctx, b.client, "GET", "/v1/background-task/{task_id}",
 		pathMap, nil, nil, nil,
 	)
 }

@@ -36,7 +36,7 @@ func (m *MessagePoller) Poll(ctx context.Context, appId, sinkId string, options 
 		}
 	}
 	return internal.ExecuteRequest[any, models.PollingEndpointOut](
-		ctx, m.client, "GET", "/api/v1/app/{app_id}/poller/{sink_id}",
+		ctx, m.client, "GET", "/v1/app/{app_id}/poller/{sink_id}",
 		pathMap, queryMap, nil, nil,
 	)
 }

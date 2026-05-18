@@ -16,7 +16,7 @@ func newIntegrationApi(client *internal.HookSniffHttpClient) *IntegrationApi {
 func (i *IntegrationApi) List(ctx context.Context, appId string) ([]Integration, error) {
 	pathMap := map[string]string{"app_id": appId}
 	result, err := internal.ExecuteRequest[any, []Integration](
-		ctx, i.client, "GET", "/api/v1/app/{app_id}/integration",
+		ctx, i.client, "GET", "/v1/app/{app_id}/integration",
 		pathMap, nil, nil, nil,
 	)
 	if err != nil {
@@ -27,7 +27,7 @@ func (i *IntegrationApi) List(ctx context.Context, appId string) ([]Integration,
 func (i *IntegrationApi) Get(ctx context.Context, appId, integId string) (*Integration, error) {
 	pathMap := map[string]string{"app_id": appId, "integ_id": integId}
 	return internal.ExecuteRequest[any, Integration](
-		ctx, i.client, "GET", "/api/v1/app/{app_id}/integration/{integ_id}",
+		ctx, i.client, "GET", "/v1/app/{app_id}/integration/{integ_id}",
 		pathMap, nil, nil, nil,
 	)
 }
@@ -35,7 +35,7 @@ func (i *IntegrationApi) Get(ctx context.Context, appId, integId string) (*Integ
 func (i *IntegrationApi) Create(ctx context.Context, appId string, body IntegrationIn) (*Integration, error) {
 	pathMap := map[string]string{"app_id": appId}
 	return internal.ExecuteRequest[IntegrationIn, Integration](
-		ctx, i.client, "POST", "/api/v1/app/{app_id}/integration",
+		ctx, i.client, "POST", "/v1/app/{app_id}/integration",
 		pathMap, nil, nil, &body,
 	)
 }
@@ -43,7 +43,7 @@ func (i *IntegrationApi) Create(ctx context.Context, appId string, body Integrat
 func (i *IntegrationApi) Update(ctx context.Context, appId, integId string, body IntegrationUpdate) (*Integration, error) {
 	pathMap := map[string]string{"app_id": appId, "integ_id": integId}
 	return internal.ExecuteRequest[IntegrationUpdate, Integration](
-		ctx, i.client, http.MethodPut, "/api/v1/app/{app_id}/integration/{integ_id}",
+		ctx, i.client, http.MethodPut, "/v1/app/{app_id}/integration/{integ_id}",
 		pathMap, nil, nil, &body,
 	)
 }
@@ -51,7 +51,7 @@ func (i *IntegrationApi) Update(ctx context.Context, appId, integId string, body
 func (i *IntegrationApi) Delete(ctx context.Context, appId, integId string) error {
 	pathMap := map[string]string{"app_id": appId, "integ_id": integId}
 	_, err := internal.ExecuteRequest[any, any](
-		ctx, i.client, http.MethodDelete, "/api/v1/app/{app_id}/integration/{integ_id}",
+		ctx, i.client, http.MethodDelete, "/v1/app/{app_id}/integration/{integ_id}",
 		pathMap, nil, nil, nil,
 	)
 	return err
@@ -60,7 +60,7 @@ func (i *IntegrationApi) Delete(ctx context.Context, appId, integId string) erro
 func (i *IntegrationApi) RotateKey(ctx context.Context, appId, integId string) (*IntegrationKeyOut, error) {
 	pathMap := map[string]string{"app_id": appId, "integ_id": integId}
 	return internal.ExecuteRequest[any, IntegrationKeyOut](
-		ctx, i.client, "POST", "/api/v1/app/{app_id}/integration/{integ_id}/key/rotate",
+		ctx, i.client, "POST", "/v1/app/{app_id}/integration/{integ_id}/key/rotate",
 		pathMap, nil, nil, nil,
 	)
 }

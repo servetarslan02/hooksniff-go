@@ -15,7 +15,7 @@ func newStreamApi(client *internal.HookSniffHttpClient) *StreamApi {
 
 func (s *StreamApi) ListChannels(ctx context.Context) ([]StreamChannel, error) {
 	result, err := internal.ExecuteRequest[any, []StreamChannel](
-		ctx, s.client, "GET", "/api/v1/stream/channels",
+		ctx, s.client, "GET", "/v1/stream/channels",
 		nil, nil, nil, nil,
 	)
 	if err != nil {
@@ -27,14 +27,14 @@ func (s *StreamApi) ListChannels(ctx context.Context) ([]StreamChannel, error) {
 func (s *StreamApi) GetChannel(ctx context.Context, id string) (*StreamChannelDetail, error) {
 	pathMap := map[string]string{"id": id}
 	return internal.ExecuteRequest[any, StreamChannelDetail](
-		ctx, s.client, "GET", "/api/v1/stream/channels/{id}",
+		ctx, s.client, "GET", "/v1/stream/channels/{id}",
 		pathMap, nil, nil, nil,
 	)
 }
 
 func (s *StreamApi) CreateChannel(ctx context.Context, body StreamChannelIn) (*StreamChannel, error) {
 	return internal.ExecuteRequest[StreamChannelIn, StreamChannel](
-		ctx, s.client, "POST", "/api/v1/stream/channels",
+		ctx, s.client, "POST", "/v1/stream/channels",
 		nil, nil, nil, &body,
 	)
 }
@@ -42,7 +42,7 @@ func (s *StreamApi) CreateChannel(ctx context.Context, body StreamChannelIn) (*S
 func (s *StreamApi) UpdateChannel(ctx context.Context, id string, body StreamChannelUpdate) (*StreamChannel, error) {
 	pathMap := map[string]string{"id": id}
 	return internal.ExecuteRequest[StreamChannelUpdate, StreamChannel](
-		ctx, s.client, http.MethodPut, "/api/v1/stream/channels/{id}",
+		ctx, s.client, http.MethodPut, "/v1/stream/channels/{id}",
 		pathMap, nil, nil, &body,
 	)
 }
@@ -50,7 +50,7 @@ func (s *StreamApi) UpdateChannel(ctx context.Context, id string, body StreamCha
 func (s *StreamApi) DeleteChannel(ctx context.Context, id string) error {
 	pathMap := map[string]string{"id": id}
 	_, err := internal.ExecuteRequest[any, any](
-		ctx, s.client, http.MethodDelete, "/api/v1/stream/channels/{id}",
+		ctx, s.client, http.MethodDelete, "/v1/stream/channels/{id}",
 		pathMap, nil, nil, nil,
 	)
 	return err
@@ -59,7 +59,7 @@ func (s *StreamApi) DeleteChannel(ctx context.Context, id string) error {
 func (s *StreamApi) ListMessages(ctx context.Context, id string, params map[string]string) ([]StreamMessage, error) {
 	pathMap := map[string]string{"id": id}
 	result, err := internal.ExecuteRequest[any, []StreamMessage](
-		ctx, s.client, "GET", "/api/v1/stream/channels/{id}/messages",
+		ctx, s.client, "GET", "/v1/stream/channels/{id}/messages",
 		pathMap, params, nil, nil,
 	)
 	if err != nil {
@@ -70,7 +70,7 @@ func (s *StreamApi) ListMessages(ctx context.Context, id string, params map[stri
 
 func (s *StreamApi) ListSubscriptions(ctx context.Context) ([]StreamSubscription, error) {
 	result, err := internal.ExecuteRequest[any, []StreamSubscription](
-		ctx, s.client, "GET", "/api/v1/stream/subscriptions",
+		ctx, s.client, "GET", "/v1/stream/subscriptions",
 		nil, nil, nil, nil,
 	)
 	if err != nil {
@@ -82,7 +82,7 @@ func (s *StreamApi) ListSubscriptions(ctx context.Context) ([]StreamSubscription
 func (s *StreamApi) DisconnectSubscription(ctx context.Context, id string) error {
 	pathMap := map[string]string{"id": id}
 	_, err := internal.ExecuteRequest[any, any](
-		ctx, s.client, http.MethodDelete, "/api/v1/stream/subscriptions/{id}",
+		ctx, s.client, http.MethodDelete, "/v1/stream/subscriptions/{id}",
 		pathMap, nil, nil, nil,
 	)
 	return err
@@ -90,7 +90,7 @@ func (s *StreamApi) DisconnectSubscription(ctx context.Context, id string) error
 
 func (s *StreamApi) Publish(ctx context.Context, body PublishEventIn) (*PublishEventResponse, error) {
 	return internal.ExecuteRequest[PublishEventIn, PublishEventResponse](
-		ctx, s.client, "POST", "/api/v1/stream/publish",
+		ctx, s.client, "POST", "/v1/stream/publish",
 		nil, nil, nil, &body,
 	)
 }
