@@ -41,7 +41,7 @@ func DefaultHookSniffHttpClient(defaultBaseUrl string) HookSniffHttpClient {
 			Timeout:   60 * time.Second,
 			Transport: tr,
 		},
-		RetrySchedule: []time.Duration{50 * time.Microsecond, 100 * time.Microsecond, 200 * time.Microsecond},
+		RetrySchedule: []time.Duration{1 * time.Second, 2 * time.Second, 4 * time.Second},
 		BaseURL:       defaultBaseUrl,
 		Debug:         false,
 	}
