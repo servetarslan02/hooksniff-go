@@ -145,7 +145,7 @@ func (message *Message) Create(
 
 // Delete all message payloads for the application.
 //
-// This operation is only available in the <a href="https://hooksniff.com/pricing" target="_blank">Enterprise</a> plan.
+// This operation is only available in the <a href="https://hooksniff.vercel.app/pricing" target="_blank">Enterprise</a> plan.
 //
 // A completed task will return a payload like the following:
 // ```json
