@@ -64,7 +64,9 @@ func New(token string, options *HookSniffOptions) (*HookSniff, error) {
 	}
 
 	hooksniffHttpClient.DefaultHeaders["Authorization"] = fmt.Sprintf("Bearer %s", token)
-	hooksniffHttpClient.DefaultHeaders["User-Agent"] = fmt.Sprintf("hooksniff-libs/%s/go", Version)
+	sdkUA := fmt.Sprintf("hooksniff-libs/%s/go", Version)
+	hooksniffHttpClient.DefaultHeaders["User-Agent"] = sdkUA
+	hooksniffHttpClient.DefaultHeaders["X-HookSniff-SDK"] = sdkUA
 
 	hs := HookSniff{
 		client:         &hooksniffHttpClient,
