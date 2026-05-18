@@ -30,53 +30,55 @@ func main() {
         panic(err)
     }
 
-    // List applications
-    apps, err := client.Endpoint.List(context.Background(), "app_id", nil)
+    endpoints, err := client.Endpoint.List(context.Background(), "app_id", nil)
     if err != nil {
         panic(err)
     }
-    for _, app := range apps.Data {
-        fmt.Printf("Endpoint: %s\n", app.Id)
+    for _, ep := range endpoints.Data {
+        fmt.Printf("Endpoint: %s\n", ep.Id)
     }
 }
 ```
 
 ## API Resources
 
-| Resource | Methods | Description |
-|----------|---------|-------------|
-| `Application` | List, Create, Get, Update, Delete, Patch | Manage applications |
-| `Endpoint` | List, Create, Get, Update, Delete, Patch | Manage webhook endpoints |
-| `Message` | Create, Get, List, Expunge | Send and manage messages |
-| `MessageAttempt` | List, Get, Resend, ListByMsg, ListByEndpoint | Track delivery attempts |
-| `EventType` | List, Create, Get, Update, Delete | Manage event types |
-| `Authentication` | AppPortalAccess, Logout, ExpireAll | Authentication management |
-| `Environment` | Export, Import | Organization settings |
-| `BackgroundTask` | List, Get | Background task status |
-| `Connector` | List, Get, Delete | Third-party connectors |
-| `Integration` | List, Get, Create, Update, Delete, RotateKey | App integrations |
-| `Inbound` | List, Create, Get, Delete | Inbound webhook configs |
-| `Stream` | ListChannels, GetChannel, CreateChannel, UpdateChannel, DeleteChannel, Publish | Real-time streaming |
-| `MessagePoller` | Poll | Poll-based message consumption |
-| `OperationalWebhook` | Endpoint.List, Endpoint.Create, Endpoint.Get, Endpoint.Delete | Operational webhook endpoints |
-| `Statistics` | AggregateAppStats | Usage statistics |
+| Resource | Methods |
+|----------|---------|
+| `Endpoint` | List, Create, Get, Update, Delete, Patch |
+| `Message` | Create, Get, List, Expunge |
+| `MessageAttempt` | List, Get, Resend, ListByMsg, ListByEndpoint |
+| `EventType` | List, Create, Get, Update, Delete |
+| `Authentication` | Logout |
+| `Environment` | Export, Import |
+| `BackgroundTask` | List, Get |
+| `Connector` | List, Get, Delete |
+| `Integration` | List, Get, Create, Update, Delete, RotateKey |
+| `Inbound` | List, Create, Get, Delete |
+| `Stream` | ListChannels, GetChannel, CreateChannel, Subscribe, Publish |
+| `MessagePoller` | Poll |
+| `OperationalWebhook` | Endpoint.List, Endpoint.Create, Endpoint.Get, Endpoint.Delete |
+| `Statistics` | AggregateAppStats |
 
 ## Webhook Verification
 
 ```go
-import "github.com/servetarslan02/hooksniff-go"
-
 wh, err := hooksniff.NewWebhook("whsec_...")
 if err != nil {
     panic(err)
 }
-
-// Verify webhook signature
 err = wh.Verify(payload, headers)
-if err != nil {
-    // Invalid signature
-}
 ```
+
+## Features
+
+- ✅ HMAC-SHA256 webhook verification
+- ✅ Typed webhook events
+- ✅ Automatic retry with exponential backoff
+- ✅ Pagination helpers
+- ✅ Rate limit header parsing
+- ✅ SSE streaming
+- ✅ Idempotency keys
+- ✅ Configurable HTTP client
 
 ## License
 
