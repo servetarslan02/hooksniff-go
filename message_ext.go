@@ -1,8 +1,33 @@
 package hooksniff
 
 import (
+	"context"
+
 	"github.com/servetarslan02/hooksniff-go/models"
 )
+
+// ListAll returns a Paginator that auto-paginates through all messages.
+//
+// Usage:
+//
+//	paginator := hs.Message.ListAll(ctx, appId, &hooksniff.MessageListOptions{Limit: lo(100)})
+//	for paginator.Next() {
+//	    msg := paginator.Value()
+//	    fmt.Println(msg.Id)
+//	}
+//	if err := paginator.Err(); err != nil {
+//	    log.Fatal(err)
+//	}
+func (message *Message) ListAll(ctx context.Context, appId string, o *MessageListOptions) *Paginator[models.MessageOut] {
+	return NewPaginator(ctx, func(ctx context.Context, iterator *string) (ListResponse[models.MessageOut], error) {
+		opts := &MessageListOptions{}
+		if o != nil {
+			*opts = *o
+		}
+		opts.Iterator = iterator
+		return message.List(ctx, appId, opts)
+	})
+}
 
 // Instantiates a new MessageIn object with a raw string payload.
 // The payload is not normalized on the server. Normally, payloads are required
