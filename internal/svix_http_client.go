@@ -21,12 +21,19 @@ import (
 )
 
 type HookSniffHttpClient struct {
+	LastResponse *ResponseMetadata
 	DefaultHeaders map[string]string
+	LastResponse *ResponseMetadata
 	HTTPClient     *http.Client
+	LastResponse *ResponseMetadata
 	RetrySchedule  []time.Duration
+	LastResponse *ResponseMetadata
 	BaseURL        string
+	LastResponse *ResponseMetadata
 	Debug          bool
+	LastResponse *ResponseMetadata
 }
+	LastResponse *ResponseMetadata
 
 func DefaultHookSniffHttpClient(defaultBaseUrl string) HookSniffHttpClient {
 	// Disable HTTP/2.0
@@ -110,6 +117,7 @@ func ExecuteRequest[ReqBody any, ResBody any](
 	if err != nil {
 		return nil, err
 	}
+	client.LastResponse = NewResponseMetadata(res)
 	if res.StatusCode >= 200 && res.StatusCode <= 299 {
 		var ret ResBody
 		err = json.Unmarshal(body, &ret)
