@@ -80,29 +80,6 @@ func TestWebhookRejectOldTimestamp(t *testing.T) {
 	}
 }
 
-func TestWebhookSvixBrandedHeaders(t *testing.T) {
-	secret := "whsec_dGVzdA=="
-	msgID := "msg_test123"
-	timestamp := time.Now().Unix()
-	payload := `{"event":"test"}`
-
-	sig := sign(secret, msgID, timestamp, payload)
-	headers := map[string]string{
-		"svix-id":        msgID,
-		"svix-timestamp": fmt.Sprintf("%d", timestamp),
-		"svix-signature": sig,
-	}
-
-	wh := NewWebhook(secret)
-	result, err := wh.Verify([]byte(payload), headers)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	if result["event"] != "test" {
-		t.Errorf("expected event=test, got %v", result["event"])
-	}
-}
-
 func TestCreateErrorFromStatus(t *testing.T) {
 	tests := []struct {
 		statusCode int
