@@ -10,7 +10,7 @@ Go SDK for the [HookSniff](https://hooksniff.com) webhook delivery platform.
 ## Installation
 
 ```bash
-go get github.com/servetarslan02/hooksniff-go
+go get github.com/servetarslan02/hooksniff-go@v1.2.0
 ```
 
 ## Quick Start
@@ -19,67 +19,65 @@ go get github.com/servetarslan02/hooksniff-go
 package main
 
 import (
+    "context"
     "fmt"
     hooksniff "github.com/servetarslan02/hooksniff-go"
 )
 
 func main() {
-    client := hooksniff.New("hs_xxx")
-
-    // List endpoints
-    endpoints, err := client.Endpoint.List(nil)
+    client, err := hooksniff.New("your-api-token", nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(endpoints)
 
-    // Create an endpoint
-    endpoint, err := client.Endpoint.Create(&hooksniff.EndpointIn{
-        Url:         "https://example.com/webhook",
-        Description: hooksniff.String("My endpoint"),
-    })
-
-    // Send a webhook
-    message, err := client.Message.Create(&hooksniff.MessageIn{
-        Event: "order.created",
-        Data:  map[string]interface{}{"order_id": "123"},
-    })
+    // List applications
+    apps, err := client.Endpoint.List(context.Background(), "app_id", nil)
+    if err != nil {
+        panic(err)
+    }
+    for _, app := range apps.Data {
+        fmt.Printf("Endpoint: %s\n", app.Id)
+    }
 }
 ```
+
+## API Resources
+
+| Resource | Methods | Description |
+|----------|---------|-------------|
+| `Application` | List, Create, Get, Update, Delete, Patch | Manage applications |
+| `Endpoint` | List, Create, Get, Update, Delete, Patch | Manage webhook endpoints |
+| `Message` | Create, Get, List, Expunge | Send and manage messages |
+| `MessageAttempt` | List, Get, Resend, ListByMsg, ListByEndpoint | Track delivery attempts |
+| `EventType` | List, Create, Get, Update, Delete | Manage event types |
+| `Authentication` | AppPortalAccess, Logout, ExpireAll | Authentication management |
+| `Environment` | Export, Import | Organization settings |
+| `BackgroundTask` | List, Get | Background task status |
+| `Connector` | List, Get, Delete | Third-party connectors |
+| `Integration` | List, Get, Create, Update, Delete, RotateKey | App integrations |
+| `Inbound` | List, Create, Get, Delete | Inbound webhook configs |
+| `Stream` | ListChannels, GetChannel, CreateChannel, UpdateChannel, DeleteChannel, Publish | Real-time streaming |
+| `MessagePoller` | Poll | Poll-based message consumption |
+| `OperationalWebhook` | Endpoint.List, Endpoint.Create, Endpoint.Get, Endpoint.Delete | Operational webhook endpoints |
+| `Statistics` | AggregateAppStats | Usage statistics |
 
 ## Webhook Verification
 
 ```go
 import "github.com/servetarslan02/hooksniff-go"
 
-wh, err := hooksniff.NewWebhook("whsec_xxx")
+wh, err := hooksniff.NewWebhook("whsec_...")
 if err != nil {
     panic(err)
 }
 
-payload, err := wh.Verify(body, http.Header{
-    "Hooksniff-Id":        []string{r.Header.Get("hooksniff-id")},
-    "Hooksniff-Signature": []string{r.Header.Get("hooksniff-signature")},
-    "Hooksniff-Timestamp": []string{r.Header.Get("hooksniff-timestamp")},
-})
+// Verify webhook signature
+err = wh.Verify(payload, headers)
 if err != nil {
     // Invalid signature
 }
 ```
 
-## Resources
+## License
 
-| Resource | Methods |
-|----------|---------|
-| `Endpoint` | `List`, `Create`, `Get`, `Update`, `Delete` |
-| `Message` | `Create`, `List`, `Get` |
-| `MessageAttempt` | `List`, `ListByMsg`, `Get`, `Resend` |
-| `Authentication` | `DashboardAccess` |
-| `EventType` | `List` |
-| `Statistics` | `Aggregate` |
-
-## Links
-
-- [Documentation](https://docs.hooksniff.com)
-- [Go Reference](https://pkg.go.dev/github.com/servetarslan02/hooksniff-go)
-- [GitHub](https://github.com/servetarslan02/HookSniff)
+MIT

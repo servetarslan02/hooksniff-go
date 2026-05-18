@@ -42,7 +42,7 @@ type (
 )
 
 func New(token string, options *HookSniffOptions) (*HookSniff, error) {
-	hooksniffHttpClient := internal.DefaultHookSniffHttpClient(getDefaultBaseUrl(token))
+	hooksniffHttpClient := internal.DefaultHookSniffHttpClient(getDefaultBaseUrl(token).String())
 
 	if options != nil {
 		if options.ServerUrl != nil {

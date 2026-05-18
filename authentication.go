@@ -46,6 +46,10 @@ type AuthenticationRotateStreamPollerTokenOptions struct {
 	IdempotencyKey *string
 }
 
+type AuthenticationDashboardAccessOptions struct {
+	IdempotencyKey *string
+}
+
 // Use this function to get magic links (and authentication codes) for connecting your users to the Consumer Application Portal.
 func (authentication *Authentication) AppPortalAccess(
 	ctx context.Context,

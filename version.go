@@ -1,4 +1,4 @@
 package hooksniff
 
 // Version is the current version of the HookSniff Go SDK
-const Version = "1.1.0"
+const Version = "1.2.0"

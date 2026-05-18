@@ -5,6 +5,10 @@ package hooksniff
 
 import "time"
 
+// Type aliases for generated code
+type Uuid = string
+type Datetime = time.Time
+
 // Adminalertrule Admin alert rule with customer info
 type Adminalertrule struct {
 	Id Uuid `json:"id"`
@@ -686,10 +690,6 @@ type Oauthproviderlistresponse struct {
 }
 
 // Outboundipsresponse List of static outbound IP addresses for firewall whitelisting
-type Outboundipsresponse struct {
-	Ips []string `json:"ips"`
-}
-
 type Outboundipsresponse struct {
 	Ips []string `json:"ips"`
 	UpdatedAt string `json:"updated_at"`
