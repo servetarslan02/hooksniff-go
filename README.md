@@ -5,7 +5,7 @@
   <a href="https://github.com/servetarslan02/HookSniff"><img src="https://img.shields.io/github/license/servetarslan02/HookSniff" alt="License"></a>
 </p>
 
-Go SDK for the [HookSniff](https://hooksniff.com) webhook delivery platform.
+Go SDK for the [HookSniff](https://hooksniff.vercel.app) webhook delivery platform.
 
 ## Installation
 
