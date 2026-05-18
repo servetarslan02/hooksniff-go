@@ -118,3 +118,48 @@ func CreateErrorFromStatus(statusCode int, body []byte, headers http.Header) err
 		return &base
 	}
 }
+
+// RequestTimeoutError represents a 408 Request Timeout error.
+type RequestTimeoutError struct {
+	HookSniffError
+}
+
+// GoneError represents a 410 Gone error.
+type GoneError struct {
+	HookSniffError
+}
+
+// PayloadTooLargeError represents a 413 Payload Too Large error.
+type PayloadTooLargeError struct {
+	HookSniffError
+}
+
+// NotImplementedError represents a 501 Not Implemented error.
+type NotImplementedError struct {
+	HookSniffError
+}
+
+// InsufficientStorageError represents a 507 Insufficient Storage error.
+type InsufficientStorageError struct {
+	HookSniffError
+}
+
+// LoopDetectedError represents a 508 Loop Detected error.
+type LoopDetectedError struct {
+	HookSniffError
+}
+
+// TimeoutError represents a request timeout (non-HTTP).
+type TimeoutError struct {
+	HookSniffError
+}
+
+// NetworkError represents a connection failure (non-HTTP).
+type NetworkError struct {
+	HookSniffError
+}
+
+// AuthenticationError represents an authentication failure.
+type AuthenticationError struct {
+	HookSniffError
+}
