@@ -21,8 +21,8 @@ func newMessagePoller(client *internal.HookSniffHttpClient) *MessagePoller {
 	return &MessagePoller{client: client}
 }
 
-func (m *MessagePoller) Poll(ctx context.Context, appId, sinkId string, options *MessagePollerPollOptions) (*models.PollingEndpointOut, error) {
-	pathMap := map[string]string{"app_id": appId, "sink_id": sinkId}
+func (m *MessagePoller) Poll(ctx context.Context, sinkId string, options *MessagePollerPollOptions) (*models.PollingEndpointOut, error) {
+	pathMap := map[string]string{"sink_id": sinkId}
 	queryMap := map[string]string{}
 	var err error
 	if options != nil {
@@ -36,7 +36,7 @@ func (m *MessagePoller) Poll(ctx context.Context, appId, sinkId string, options 
 		}
 	}
 	return internal.ExecuteRequest[any, models.PollingEndpointOut](
-		ctx, m.client, "GET", "/v1/app/{app_id}/poller/{sink_id}",
+		ctx, m.client, "GET", "/v1/poller/{sink_id}",
 		pathMap, queryMap, nil, nil,
 	)
 }

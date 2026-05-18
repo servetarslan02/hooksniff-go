@@ -26,6 +26,14 @@ type AuthenticationStreamLogoutOptions struct {
 	IdempotencyKey *string
 }
 
+type AuthenticationStreamPortalAccessOptions struct {
+	IdempotencyKey *string
+}
+
+type AuthenticationStreamExpireAllOptions struct {
+	IdempotencyKey *string
+}
+
 type AuthenticationRotateStreamPollerTokenOptions struct {
 	IdempotencyKey *string
 }
@@ -82,6 +90,67 @@ func (authentication *Authentication) StreamLogout(
 		nil,
 		headerMap,
 		nil,
+	)
+	return err
+}
+
+// Use this function to get magic links (and authentication codes) for connecting your users to the Stream Consumer Portal.
+func (authentication *Authentication) StreamPortalAccess(
+	ctx context.Context,
+	streamId string,
+	streamPortalAccessIn models.StreamPortalAccessIn,
+	o *AuthenticationStreamPortalAccessOptions,
+) (*models.AppPortalAccessOut, error) {
+	pathMap := map[string]string{
+		"stream_id": streamId,
+	}
+	headerMap := map[string]string{}
+	var err error
+	if o != nil {
+		internal.SerializeParamToMap("idempotency-key", o.IdempotencyKey, headerMap, &err)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return internal.ExecuteRequest[models.StreamPortalAccessIn, models.AppPortalAccessOut](
+		ctx,
+		authentication.client,
+		"POST",
+		"/v1/auth/stream-portal-access/{stream_id}",
+		pathMap,
+		nil,
+		headerMap,
+		&streamPortalAccessIn,
+	)
+}
+
+// Expire all of the tokens associated with a specific stream.
+func (authentication *Authentication) StreamExpireAll(
+	ctx context.Context,
+	streamId string,
+	streamTokenExpireIn models.StreamTokenExpireIn,
+	o *AuthenticationStreamExpireAllOptions,
+) error {
+	pathMap := map[string]string{
+		"stream_id": streamId,
+	}
+	headerMap := map[string]string{}
+	var err error
+	if o != nil {
+		internal.SerializeParamToMap("idempotency-key", o.IdempotencyKey, headerMap, &err)
+		if err != nil {
+			return err
+		}
+	}
+	_, err = internal.ExecuteRequest[models.StreamTokenExpireIn, any](
+		ctx,
+		authentication.client,
+		"POST",
+		"/v1/auth/stream/{stream_id}/expire-all",
+		pathMap,
+		nil,
+		headerMap,
+		&streamTokenExpireIn,
 	)
 	return err
 }

@@ -63,11 +63,9 @@ type EndpointGetStatsOptions struct {
 // List the application's endpoints.
 func (endpoint *Endpoint) List(
 	ctx context.Context,
-	appId string,
 	o *EndpointListOptions,
 ) (*models.ListResponseEndpointOut, error) {
 	pathMap := map[string]string{
-		"app_id": appId,
 	}
 	queryMap := map[string]string{}
 	var err error
@@ -96,12 +94,10 @@ func (endpoint *Endpoint) List(
 // When `secret` is `null` the secret is automatically generated (recommended).
 func (endpoint *Endpoint) Create(
 	ctx context.Context,
-	appId string,
 	endpointIn models.EndpointIn,
 	o *EndpointCreateOptions,
 ) (*models.EndpointOut, error) {
 	pathMap := map[string]string{
-		"app_id": appId,
 	}
 	headerMap := map[string]string{}
 	var err error
@@ -126,11 +122,9 @@ func (endpoint *Endpoint) Create(
 // Get an endpoint.
 func (endpoint *Endpoint) Get(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 ) (*models.EndpointOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	return internal.ExecuteRequest[any, models.EndpointOut](
@@ -148,12 +142,10 @@ func (endpoint *Endpoint) Get(
 // Update an endpoint.
 func (endpoint *Endpoint) Update(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	endpointUpdate models.EndpointUpdate,
 ) (*models.EndpointOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	return internal.ExecuteRequest[models.EndpointUpdate, models.EndpointOut](
@@ -171,11 +163,9 @@ func (endpoint *Endpoint) Update(
 // Delete an endpoint.
 func (endpoint *Endpoint) Delete(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 ) error {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	_, err := internal.ExecuteRequest[any, any](
@@ -194,12 +184,10 @@ func (endpoint *Endpoint) Delete(
 // Partially update an endpoint.
 func (endpoint *Endpoint) Patch(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	endpointPatch models.EndpointPatch,
 ) (*models.EndpointOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	return internal.ExecuteRequest[models.EndpointPatch, models.EndpointOut](
@@ -234,13 +222,11 @@ func (endpoint *Endpoint) Patch(
 // ```
 func (endpoint *Endpoint) BulkReplay(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	bulkReplayIn models.BulkReplayIn,
 	o *EndpointBulkReplayOptions,
 ) (*models.ReplayOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	headerMap := map[string]string{}
@@ -266,11 +252,9 @@ func (endpoint *Endpoint) BulkReplay(
 // Get the additional headers to be sent with the webhook.
 func (endpoint *Endpoint) GetHeaders(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 ) (*models.EndpointHeadersOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	return internal.ExecuteRequest[any, models.EndpointHeadersOut](
@@ -288,12 +272,10 @@ func (endpoint *Endpoint) GetHeaders(
 // Set the additional headers to be sent with the webhook.
 func (endpoint *Endpoint) UpdateHeaders(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	endpointHeadersIn models.EndpointHeadersIn,
 ) error {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	_, err := internal.ExecuteRequest[models.EndpointHeadersIn, any](
@@ -312,12 +294,10 @@ func (endpoint *Endpoint) UpdateHeaders(
 // Partially set the additional headers to be sent with the webhook.
 func (endpoint *Endpoint) PatchHeaders(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	endpointHeadersPatchIn models.EndpointHeadersPatchIn,
 ) error {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	_, err := internal.ExecuteRequest[models.EndpointHeadersPatchIn, any](
@@ -352,13 +332,11 @@ func (endpoint *Endpoint) PatchHeaders(
 // ```
 func (endpoint *Endpoint) Recover(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	recoverIn models.RecoverIn,
 	o *EndpointRecoverOptions,
 ) (*models.RecoverOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	headerMap := map[string]string{}
@@ -401,13 +379,11 @@ func (endpoint *Endpoint) Recover(
 // ```
 func (endpoint *Endpoint) ReplayMissing(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	replayIn models.ReplayIn,
 	o *EndpointReplayMissingOptions,
 ) (*models.ReplayOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	headerMap := map[string]string{}
@@ -436,11 +412,9 @@ func (endpoint *Endpoint) ReplayMissing(
 // For more information please refer to [the consuming webhooks docs](https://hooksniff.vercel.app/docs/consuming-webhooks/).
 func (endpoint *Endpoint) GetSecret(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 ) (*models.EndpointSecretOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	return internal.ExecuteRequest[any, models.EndpointSecretOut](
@@ -460,13 +434,11 @@ func (endpoint *Endpoint) GetSecret(
 // The previous secret will remain valid for the next 24 hours.
 func (endpoint *Endpoint) RotateSecret(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	endpointSecretRotateIn models.EndpointSecretRotateIn,
 	o *EndpointRotateSecretOptions,
 ) error {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	headerMap := map[string]string{}
@@ -493,13 +465,11 @@ func (endpoint *Endpoint) RotateSecret(
 // Send an example message for an event.
 func (endpoint *Endpoint) SendExample(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	eventExampleIn models.EventExampleIn,
 	o *EndpointSendExampleOptions,
 ) (*models.MessageOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	headerMap := map[string]string{}
@@ -525,12 +495,10 @@ func (endpoint *Endpoint) SendExample(
 // Get basic statistics for the endpoint.
 func (endpoint *Endpoint) GetStats(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	o *EndpointGetStatsOptions,
 ) (*models.EndpointStats, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	queryMap := map[string]string{}
@@ -557,11 +525,9 @@ func (endpoint *Endpoint) GetStats(
 // Get the transformation code associated with this endpoint.
 func (endpoint *Endpoint) TransformationGet(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 ) (*models.EndpointTransformationOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	return internal.ExecuteRequest[any, models.EndpointTransformationOut](
@@ -579,12 +545,10 @@ func (endpoint *Endpoint) TransformationGet(
 // Set or unset the transformation code associated with this endpoint.
 func (endpoint *Endpoint) PatchTransformation(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	endpointTransformationPatch models.EndpointTransformationPatch,
 ) error {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	_, err := internal.ExecuteRequest[models.EndpointTransformationPatch, any](
@@ -605,12 +569,10 @@ func (endpoint *Endpoint) PatchTransformation(
 // Deprecated: TransformationPartialUpdate is deprecated.
 func (endpoint *Endpoint) TransformationPartialUpdate(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	endpointTransformationIn models.EndpointTransformationIn,
 ) error {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	_, err := internal.ExecuteRequest[models.EndpointTransformationIn, any](

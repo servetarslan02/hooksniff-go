@@ -27,7 +27,7 @@ type Paginator[T any] struct {
 // Usage:
 //
 //	paginator := hooksniff.NewPaginator(ctx, func(ctx context.Context, iter *string) (ListResponse[T], error) {
-//	    return client.Message.List(ctx, appId, &MessageListOptions{Limit: lo(100), Iterator: iter})
+//	    return client.Message.List(ctx, &MessageListOptions{Limit: lo(100), Iterator: iter})
 //	})
 //	for paginator.Next() {
 //	    item := paginator.Value()

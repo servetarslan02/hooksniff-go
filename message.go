@@ -70,12 +70,8 @@ type MessageGetOptions struct {
 // set the `before` or `after` parameter as appropriate.
 func (message *Message) List(
 	ctx context.Context,
-	appId string,
 	o *MessageListOptions,
 ) (*models.ListResponseMessageOut, error) {
-	pathMap := map[string]string{
-		"app_id": appId,
-	}
 	queryMap := map[string]string{}
 	var err error
 	if o != nil {
@@ -96,7 +92,7 @@ func (message *Message) List(
 		message.client,
 		"GET",
 		"/v1/webhooks",
-		pathMap,
+		nil,
 		queryMap,
 		nil,
 		nil,
@@ -114,13 +110,9 @@ func (message *Message) List(
 // The `payload` property is the webhook's body (the actual webhook message). HookSniff supports payload sizes of up to 1MiB, though it's generally a good idea to keep webhook payloads small, probably no larger than 40kb.
 func (message *Message) Create(
 	ctx context.Context,
-	appId string,
 	messageIn models.MessageIn,
 	o *MessageCreateOptions,
 ) (*models.MessageOut, error) {
-	pathMap := map[string]string{
-		"app_id": appId,
-	}
 	queryMap := map[string]string{}
 	headerMap := map[string]string{}
 	var err error
@@ -136,7 +128,7 @@ func (message *Message) Create(
 		message.client,
 		"POST",
 		"/v1/webhooks",
-		pathMap,
+		nil,
 		queryMap,
 		headerMap,
 		&messageIn,
@@ -162,12 +154,8 @@ func (message *Message) Create(
 // ```
 func (message *Message) ExpungeAllContents(
 	ctx context.Context,
-	appId string,
 	o *MessageExpungeAllContentsOptions,
 ) (*models.ExpungeAllContentsOut, error) {
-	pathMap := map[string]string{
-		"app_id": appId,
-	}
 	headerMap := map[string]string{}
 	var err error
 	if o != nil {
@@ -181,7 +169,7 @@ func (message *Message) ExpungeAllContents(
 		message.client,
 		"POST",
 		"/v1/webhooks/expunge-all-contents",
-		pathMap,
+		nil,
 		nil,
 		headerMap,
 		nil,
@@ -196,13 +184,9 @@ func (message *Message) ExpungeAllContents(
 // If unsure, please ask HookSniff support before using this API.
 func (message *Message) Precheck(
 	ctx context.Context,
-	appId string,
 	messagePrecheckIn models.MessagePrecheckIn,
 	o *MessagePrecheckOptions,
 ) (*models.MessagePrecheckOut, error) {
-	pathMap := map[string]string{
-		"app_id": appId,
-	}
 	headerMap := map[string]string{}
 	var err error
 	if o != nil {
@@ -216,7 +200,7 @@ func (message *Message) Precheck(
 		message.client,
 		"POST",
 		"/v1/webhooks/precheck/active",
-		pathMap,
+		nil,
 		nil,
 		headerMap,
 		&messagePrecheckIn,
@@ -226,12 +210,10 @@ func (message *Message) Precheck(
 // Get a message by its ID or eventID.
 func (message *Message) Get(
 	ctx context.Context,
-	appId string,
 	msgId string,
 	o *MessageGetOptions,
 ) (*models.MessageOut, error) {
 	pathMap := map[string]string{
-		"app_id": appId,
 		"msg_id": msgId,
 	}
 	queryMap := map[string]string{}
@@ -260,11 +242,9 @@ func (message *Message) Get(
 // The message can't be replayed or resent once its payload has been deleted or expired.
 func (message *Message) ExpungeContent(
 	ctx context.Context,
-	appId string,
 	msgId string,
 ) error {
 	pathMap := map[string]string{
-		"app_id": appId,
 		"msg_id": msgId,
 	}
 	_, err := internal.ExecuteRequest[any, any](

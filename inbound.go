@@ -36,8 +36,7 @@ func newInbound(client *internal.HookSniffHttpClient) *Inbound {
 	return &Inbound{client: client}
 }
 
-func (i *Inbound) List(ctx context.Context, appId string, options *InboundListOptions) ([]InboundConfig, error) {
-	pathMap := map[string]string{"app_id": appId}
+func (i *Inbound) List(ctx context.Context, options *InboundListOptions) ([]InboundConfig, error) {
 	queryMap := map[string]string{}
 	var err error
 	if options != nil {
@@ -48,8 +47,8 @@ func (i *Inbound) List(ctx context.Context, appId string, options *InboundListOp
 		}
 	}
 	result, err := internal.ExecuteRequest[any, []InboundConfig](
-		ctx, i.client, "GET", "/v1/app/{app_id}/inbound",
-		pathMap, queryMap, nil, nil,
+		ctx, i.client, "GET", "/v1/inbound",
+		nil, queryMap, nil, nil,
 	)
 	if err != nil {
 		return nil, err
@@ -57,26 +56,25 @@ func (i *Inbound) List(ctx context.Context, appId string, options *InboundListOp
 	return *result, nil
 }
 
-func (i *Inbound) Create(ctx context.Context, appId string, body InboundConfigIn) (*InboundConfig, error) {
-	pathMap := map[string]string{"app_id": appId}
+func (i *Inbound) Create(ctx context.Context, body InboundConfigIn) (*InboundConfig, error) {
 	return internal.ExecuteRequest[InboundConfigIn, InboundConfig](
-		ctx, i.client, "POST", "/v1/app/{app_id}/inbound",
-		pathMap, nil, nil, &body,
+		ctx, i.client, "POST", "/v1/inbound",
+		nil, nil, nil, &body,
 	)
 }
 
-func (i *Inbound) Get(ctx context.Context, appId, inboundId string) (*InboundConfig, error) {
-	pathMap := map[string]string{"app_id": appId, "inbound_id": inboundId}
+func (i *Inbound) Get(ctx context.Context, inboundId string) (*InboundConfig, error) {
+	pathMap := map[string]string{"inbound_id": inboundId}
 	return internal.ExecuteRequest[any, InboundConfig](
-		ctx, i.client, "GET", "/v1/app/{app_id}/inbound/{inbound_id}",
+		ctx, i.client, "GET", "/v1/inbound/{inbound_id}",
 		pathMap, nil, nil, nil,
 	)
 }
 
-func (i *Inbound) Delete(ctx context.Context, appId, inboundId string) error {
-	pathMap := map[string]string{"app_id": appId, "inbound_id": inboundId}
+func (i *Inbound) Delete(ctx context.Context, inboundId string) error {
+	pathMap := map[string]string{"inbound_id": inboundId}
 	_, err := internal.ExecuteRequest[any, any](
-		ctx, i.client, http.MethodDelete, "/v1/app/{app_id}/inbound/{inbound_id}",
+		ctx, i.client, http.MethodDelete, "/v1/inbound/{inbound_id}",
 		pathMap, nil, nil, nil,
 	)
 	return err

@@ -127,12 +127,10 @@ type MessageAttemptResendOptions struct {
 // set the `before` or `after` parameter as appropriate.
 func (messageAttempt *MessageAttempt) ListByEndpoint(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	o *MessageAttemptListByEndpointOptions,
 ) (*models.ListResponseMessageAttemptOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	queryMap := map[string]string{}
@@ -174,12 +172,10 @@ func (messageAttempt *MessageAttempt) ListByEndpoint(
 // set the `before` or `after` parameter as appropriate.
 func (messageAttempt *MessageAttempt) ListByMsg(
 	ctx context.Context,
-	appId string,
 	msgId string,
 	o *MessageAttemptListByMsgOptions,
 ) (*models.ListResponseMessageAttemptOut, error) {
 	pathMap := map[string]string{
-		"app_id": appId,
 		"msg_id": msgId,
 	}
 	queryMap := map[string]string{}
@@ -223,12 +219,10 @@ func (messageAttempt *MessageAttempt) ListByMsg(
 // set the `before` or `after` parameter as appropriate.
 func (messageAttempt *MessageAttempt) ListAttemptedMessages(
 	ctx context.Context,
-	appId string,
 	endpointId string,
 	o *MessageAttemptListAttemptedMessagesOptions,
 ) (*models.ListResponseEndpointMessageOut, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"endpoint_id": endpointId,
 	}
 	queryMap := map[string]string{}
@@ -252,7 +246,7 @@ func (messageAttempt *MessageAttempt) ListAttemptedMessages(
 		ctx,
 		messageAttempt.client,
 		"GET",
-		"/v1/app/{app_id}/endpoint/{endpoint_id}/msg",
+		"/v1/endpoints/{endpoint_id}/msg",
 		pathMap,
 		queryMap,
 		nil,
@@ -263,13 +257,11 @@ func (messageAttempt *MessageAttempt) ListAttemptedMessages(
 // `msg_id`: Use a message id or a message `eventId`
 func (messageAttempt *MessageAttempt) Get(
 	ctx context.Context,
-	appId string,
 	msgId string,
 	attemptId string,
 	o *MessageAttemptGetOptions,
 ) (*models.MessageAttemptOut, error) {
 	pathMap := map[string]string{
-		"app_id":     appId,
 		"msg_id":     msgId,
 		"attempt_id": attemptId,
 	}
@@ -285,7 +277,7 @@ func (messageAttempt *MessageAttempt) Get(
 		ctx,
 		messageAttempt.client,
 		"GET",
-		"/v1/app/{app_id}/msg/{msg_id}/attempt/{attempt_id}",
+		"/v1/webhooks/{msg_id}/attempts/{attempt_id}",
 		pathMap,
 		queryMap,
 		nil,
@@ -299,12 +291,10 @@ func (messageAttempt *MessageAttempt) Get(
 // The message can't be replayed or resent once its payload has been deleted or expired.
 func (messageAttempt *MessageAttempt) ExpungeContent(
 	ctx context.Context,
-	appId string,
 	msgId string,
 	attemptId string,
 ) error {
 	pathMap := map[string]string{
-		"app_id":     appId,
 		"msg_id":     msgId,
 		"attempt_id": attemptId,
 	}
@@ -312,7 +302,7 @@ func (messageAttempt *MessageAttempt) ExpungeContent(
 		ctx,
 		messageAttempt.client,
 		"DELETE",
-		"/v1/app/{app_id}/msg/{msg_id}/attempt/{attempt_id}/content",
+		"/v1/webhooks/{msg_id}/attempts/{attempt_id}/content",
 		pathMap,
 		nil,
 		nil,
@@ -327,12 +317,10 @@ func (messageAttempt *MessageAttempt) ExpungeContent(
 // By default, endpoints are listed in ascending order by ID.
 func (messageAttempt *MessageAttempt) ListAttemptedDestinations(
 	ctx context.Context,
-	appId string,
 	msgId string,
 	o *MessageAttemptListAttemptedDestinationsOptions,
 ) (*models.ListResponseMessageEndpointOut, error) {
 	pathMap := map[string]string{
-		"app_id": appId,
 		"msg_id": msgId,
 	}
 	queryMap := map[string]string{}
@@ -348,7 +336,7 @@ func (messageAttempt *MessageAttempt) ListAttemptedDestinations(
 		ctx,
 		messageAttempt.client,
 		"GET",
-		"/v1/app/{app_id}/msg/{msg_id}/endpoint",
+		"/v1/webhooks/{msg_id}/endpoints",
 		pathMap,
 		queryMap,
 		nil,
@@ -359,13 +347,11 @@ func (messageAttempt *MessageAttempt) ListAttemptedDestinations(
 // Resend a message to the specified endpoint.
 func (messageAttempt *MessageAttempt) Resend(
 	ctx context.Context,
-	appId string,
 	msgId string,
 	endpointId string,
 	o *MessageAttemptResendOptions,
 ) (*models.EmptyResponse, error) {
 	pathMap := map[string]string{
-		"app_id":      appId,
 		"msg_id":      msgId,
 		"endpoint_id": endpointId,
 	}
@@ -381,7 +367,7 @@ func (messageAttempt *MessageAttempt) Resend(
 		ctx,
 		messageAttempt.client,
 		"POST",
-		"/v1/app/{app_id}/msg/{msg_id}/endpoint/{endpoint_id}/resend",
+		"/v1/webhooks/{msg_id}/endpoints/{endpoint_id}/resend",
 		pathMap,
 		nil,
 		headerMap,

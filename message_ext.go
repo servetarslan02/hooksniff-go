@@ -10,7 +10,7 @@ import (
 //
 // Usage:
 //
-//	paginator := hs.Message.ListAll(ctx, appId, &hooksniff.MessageListOptions{Limit: lo(100)})
+//	paginator := hs.Message.ListAll(ctx, &hooksniff.MessageListOptions{Limit: lo(100)})
 //	for paginator.Next() {
 //	    msg := paginator.Value()
 //	    fmt.Println(msg.Id)
@@ -18,14 +18,14 @@ import (
 //	if err := paginator.Err(); err != nil {
 //	    log.Fatal(err)
 //	}
-func (message *Message) ListAll(ctx context.Context, appId string, o *MessageListOptions) *Paginator[models.MessageOut] {
+func (message *Message) ListAll(ctx context.Context, o *MessageListOptions) *Paginator[models.MessageOut] {
 	return NewPaginator(ctx, func(ctx context.Context, iterator *string) (ListResponse[models.MessageOut], error) {
 		opts := &MessageListOptions{}
 		if o != nil {
 			*opts = *o
 		}
 		opts.Iterator = iterator
-		return message.List(ctx, appId, opts)
+		return message.List(ctx, opts)
 	})
 }
 
