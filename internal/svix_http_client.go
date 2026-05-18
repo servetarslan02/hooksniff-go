@@ -154,15 +154,11 @@ func executeRequestWithRetries(client *HookSniffHttpClient, request *http.Reques
 	}
 
 	if client.Debug {
-		log.Printf("URL: %s", request.URL)
-		dump, err := httputil.DumpRequestOut(request, true)
-		if err != nil {
-			return nil, err
-		}
-		log.Printf("\n%s\n", string(dump))
+		log.Printf("[HookSniff] → %s %s", request.Method, request.URL)
 	}
 
 	resp, err := client.HTTPClient.Do(request)
+	reqStart := time.Now()
 	for try := 0; try < len(client.RetrySchedule); try++ {
 		// 429 Rate Limit — respect Retry-After header
 		if err == nil && resp.StatusCode == 429 {
@@ -196,11 +192,8 @@ func executeRequestWithRetries(client *HookSniffHttpClient, request *http.Reques
 
 	if client.Debug {
 		if resp != nil {
-			dump, err := httputil.DumpResponse(resp, true)
-			if err != nil {
-				return resp, err
-			}
-			log.Printf("\n%s\n", string(dump))
+			elapsed := time.Since(reqStart)
+			log.Printf("[HookSniff] ← %d (%dms)", resp.StatusCode, elapsed.Milliseconds())
 		}
 	}
 	return resp, err
