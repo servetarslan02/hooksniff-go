@@ -409,7 +409,7 @@ func (endpoint *Endpoint) ReplayMissing(
 // Get the endpoint's signing secret.
 //
 // This is used to verify the authenticity of the webhook.
-// For more information please refer to [the consuming webhooks docs](https://hooksniff.vercel.app/docs/consuming-webhooks/).
+// For more information please refer to [the consuming webhooks docs](https://hooksniff.vercel.app/docs).
 func (endpoint *Endpoint) GetSecret(
 	ctx context.Context,
 	endpointId string,
