@@ -30,7 +30,7 @@ func main() {
         panic(err)
     }
 
-    endpoints, err := client.Endpoint.List(context.Background(), "app_id", nil)
+    endpoints, err := client.Endpoint.List(context.Background(), nil)
     if err != nil {
         panic(err)
     }
@@ -57,7 +57,7 @@ func main() {
 | `Stream` | ListChannels, GetChannel, CreateChannel, Subscribe, Publish |
 | `MessagePoller` | Poll |
 | `OperationalWebhook` | Endpoint.List, Endpoint.Create, Endpoint.Get, Endpoint.Delete |
-| `Statistics` | AggregateAppStats |
+| `Statistics` | AggregateEventTypes |
 
 ## Webhook Verification
 
